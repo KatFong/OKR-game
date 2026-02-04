@@ -1,0 +1,47 @@
+/* Custom scrollbar for webkit */
+.scrollbar-retro::-webkit-scrollbar {
+    width: 12px;
+}
+.scrollbar-retro::-webkit-scrollbar-track {
+    background: #2c3e50;
+}
+.scrollbar-retro::-webkit-scrollbar-thumb {
+    background: #e67e22;
+    border: 2px solid #2c3e50;
+}
+
+/* Utility for hiding scrollbar but allowing scroll */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace; /* Fallback for pixel feel */
+}
+
+/* Sidebar transition */
+#sidebar {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Message Pop Animation */
+@keyframes messagePop {
+    0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-pop {
+    animation: messagePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Cursor Blink */
+.cursor-blink::after {
+    content: '▋';
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+    color: #9b59b6;
+}
+@keyframes blink { 50% { opacity: 0; } }
