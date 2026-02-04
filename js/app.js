@@ -332,20 +332,20 @@ function formatText(text) {
             return;
         }
         if (trimmed.startsWith('### ')) {
-            html += `<h3 class="text-sm font-black text-[#e67e22] mt-3 mb-1 uppercase tracking-wider border-b-2 border-[#e67e22]/20 pb-1">${parseBold(trimmed.substring(4))}</h3>`;
+            html += `<h3 class="text-base font-black text-[#e67e22] mt-3 mb-1 uppercase tracking-wider border-b-2 border-[#e67e22]/20 pb-1">${parseBold(trimmed.substring(4))}</h3>`;
         } else if (trimmed.startsWith('## ')) {
-            html += `<h2 class="text-base font-black text-[#d35400] mt-4 mb-2 uppercase tracking-widest border-b-2 border-[#d35400] pb-1">${parseBold(trimmed.substring(3))}</h2>`;
+            html += `<h2 class="text-lg font-black text-[#d35400] mt-4 mb-2 uppercase tracking-widest border-b-2 border-[#d35400] pb-1">${parseBold(trimmed.substring(3))}</h2>`;
         } else if (trimmed.startsWith('# ')) {
-            html += `<h1 class="text-lg font-black text-[#c0392b] mt-5 mb-3 uppercase tracking-widest border-b-4 border-[#c0392b] pb-1">${parseBold(trimmed.substring(2))}</h1>`;
+            html += `<h1 class="text-xl font-black text-[#c0392b] mt-5 mb-3 uppercase tracking-widest border-b-4 border-[#c0392b] pb-1">${parseBold(trimmed.substring(2))}</h1>`;
         } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-            html += `<div class="flex items-start pl-2 text-sm sm:text-base"><span class="mr-2 font-bold text-[#3498db]">•</span><div class="flex-1">${parseBold(trimmed.substring(2))}</div></div>`;
+            html += `<div class="flex items-start pl-2 text-base sm:text-lg font-semibold"><span class="mr-2 font-bold text-[#3498db]">•</span><div class="flex-1">${parseBold(trimmed.substring(2))}</div></div>`;
         } else if (/^\d+\.\s/.test(trimmed)) {
             const match = trimmed.match(/^(\d+\.\s)(.*)/);
             if (match) {
-                html += `<div class="flex items-start pl-2 text-sm sm:text-base"><span class="mr-2 font-bold text-[#e67e22] font-mono">${match[1]}</span><div class="flex-1">${parseBold(match[2])}</div></div>`;
+                html += `<div class="flex items-start pl-2 text-base sm:text-lg font-semibold"><span class="mr-2 font-bold text-[#e67e22] font-mono">${match[1]}</span><div class="flex-1">${parseBold(match[2])}</div></div>`;
             }
         } else {
-            html += `<div class="block text-sm sm:text-base">${parseBold(line)}</div>`;
+            html += `<div class="block text-base sm:text-lg font-semibold">${parseBold(line)}</div>`;
         }
     });
     html += '</div>';
@@ -378,11 +378,11 @@ function createMessageHTML(msg) {
         ? `<img src="${LUMINA_AVATAR_URL}" alt="露米娜" class="w-full h-full object-cover object-top" />`
         : `<i data-lucide="${avatarIcon}" class="text-white w-6 h-6"></i>`;
 
-    let bubbleClass = `p-3 sm:p-4 border-2 border-black text-sm sm:text-base leading-relaxed shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] max-w-3xl `;
+    let bubbleClass = `p-3 sm:p-4 border-2 border-black text-base sm:text-lg font-semibold leading-relaxed shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] max-w-3xl `;
     if (isUser) {
         bubbleClass += 'bg-white text-black rounded-tl-xl rounded-bl-xl rounded-br-xl';
     } else if (isSystem) {
-        bubbleClass += 'bg-[#34495e] text-white border-slate-500 font-mono text-xs';
+        bubbleClass += 'bg-[#34495e] text-white border-slate-500 font-mono text-sm font-semibold';
     } else {
         bubbleClass += 'bg-[#ecf0f1] text-[#2c3e50] rounded-tr-xl rounded-br-xl rounded-bl-xl';
     }
@@ -395,7 +395,7 @@ function createMessageHTML(msg) {
             ${avatarHTML}
         </div>
         <div class="max-w-[85%] flex flex-col ${isUser ? 'items-end' : 'items-start'}">
-            ${!isUser ? `<span class="${senderColor} text-[10px] font-bold mb-1 uppercase tracking-wider block">${senderName}</span>` : ''}
+            ${!isUser ? `<span class="${senderColor} text-xs font-bold mb-1 uppercase tracking-wider block">${senderName}</span>` : ''}
             <div class="${bubbleClass}">
                 ${formatText(msg.text)}
             </div>

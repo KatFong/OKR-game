@@ -4,7 +4,7 @@ Thumbs.db
 
 # Editor
 .idea/
-.vscode/
+# .vscode/ 保留以便提交專案用 git 設定
 *.swp
 *.swo
 *~
