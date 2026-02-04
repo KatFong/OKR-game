@@ -45,3 +45,85 @@ body {
     color: #9b59b6;
 }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* 牛皮底任務單 UI (OKR 初稿) */
+.kraft-paper {
+    background-color: #e8dcc8;
+    background-image: 
+        linear-gradient(rgba(139, 90, 43, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 90, 43, 0.03) 1px, transparent 1px);
+    background-size: 8px 8px;
+    border: 3px solid #6b4423;
+    border-radius: 4px;
+    box-shadow: 
+        inset 0 0 60px rgba(139, 90, 43, 0.08),
+        4px 4px 0 rgba(0, 0, 0, 0.15);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    position: relative;
+}
+.kraft-paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(180deg, #8b5a2b 0%, #6b4423 100%);
+    border-radius: 4px 4px 0 0;
+}
+.kraft-paper-title {
+    font-weight: 800;
+    color: #5d4037;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid #8b5a2b;
+}
+.kraft-paper-o {
+    font-weight: 800;
+    color: #5d4037;
+    font-size: 0.7rem;
+    margin-bottom: 0.25rem;
+}
+.kraft-paper-o-value {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+.kraft-paper-kr-label {
+    font-weight: 800;
+    color: #5d4037;
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+}
+.kraft-paper-kr-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+.kraft-paper-kr-num {
+    color: #8b5a2b;
+    font-weight: 800;
+    min-width: 1.5rem;
+}
+.kraft-paper-stars {
+    display: inline-flex;
+    gap: 1px;
+    margin-left: 0.25rem;
+}
+.kraft-paper-star {
+    color: #d4a84b;
+    font-size: 0.75rem;
+}
+.kraft-paper-star.empty {
+    color: #c4b59a;
+    opacity: 0.6;
+}

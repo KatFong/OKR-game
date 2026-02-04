@@ -320,6 +320,74 @@ function addMessage(text, sender = 'npc', animate = false) {
     }
 }
 
+// 解析 [OKR-DRAFT]...[/OKR-DRAFT] 區塊，回傳 { before, draftLines, after } 或 null
+function parseOKRDraftBlock(text) {
+    const open = '[OKR-DRAFT]';
+    const close = '[/OKR-DRAFT]';
+    const i = text.indexOf(open);
+    const j = text.indexOf(close, i);
+    if (i === -1 || j === -1 || j <= i) return null;
+    const before = text.slice(0, i).trim();
+    const after = text.slice(j + close.length).trim();
+    const draftRaw = text.slice(i + open.length, j).trim();
+    const draftLines = draftRaw.split('\n').map(l => l.trim()).filter(Boolean);
+    return { before, draftLines, after };
+}
+
+// 從一行 KR 文字取出信心指數，例如 "xxx (7/10)" -> 7
+function getConfidenceFromLine(line) {
+    const m = line.match(/\((\d+)\s*\/\s*10\)/);
+    return m ? parseInt(m[1], 10) : null;
+}
+
+// 渲染牛皮紙任務單 HTML
+function renderKraftPaperDraft(draftLines) {
+    let objective = '';
+    const krs = [];
+    for (const line of draftLines) {
+        const oMatch = line.match(/^(?:目標\s*[（(]?O[）)]?\s*[：:]\s*|O\s*[：:]\s*)(.+)$/i);
+        if (oMatch) {
+            objective = oMatch[1].trim();
+            continue;
+        }
+        const krMatch = line.match(/^(?:KR\s*)?(\d+)[.．、：:]\s*(.+)$/);
+        if (krMatch) {
+            const title = krMatch[2].trim();
+            const confidence = getConfidenceFromLine(title) || 7;
+            krs.push({ title, confidence });
+        }
+    }
+    if (!objective && krs.length === 0) return '';
+
+    let krHtml = krs.map((kr, i) => {
+        const filled = Math.round((kr.confidence / 10) * 5);
+        let stars = '';
+        for (let s = 0; s < 5; s++) {
+            stars += `<span class="kraft-paper-star ${s < filled ? '' : 'empty'}">★</span>`;
+        }
+        return `<div class="kraft-paper-kr-item"><span class="kraft-paper-kr-num">${i + 1}.</span><span>${escapeHtml(kr.title)}</span><span class="kraft-paper-stars">${stars}</span></div>`;
+    }).join('');
+
+    return `
+        <div class="kraft-paper">
+            <div class="kraft-paper-title">📜 OKR 初稿</div>
+            ${objective ? `<div class="kraft-paper-o">目標 (O)</div><div class="kraft-paper-o-value">${escapeHtml(objective)}</div>` : ''}
+            ${krHtml ? `<div class="kraft-paper-kr-label">關鍵結果 (KR) 暫定</div>${krHtml}` : ''}
+        </div>
+    `;
+}
+
+// 若訊息含 [OKR-DRAFT]，先拆成前/初稿/後，再組合 HTML
+function formatMessageContent(text) {
+    const block = parseOKRDraftBlock(text);
+    if (!block) return formatText(text);
+    let html = '';
+    if (block.before) html += formatText(block.before);
+    html += renderKraftPaperDraft(block.draftLines);
+    if (block.after) html += formatText(block.after);
+    return html || formatText(text);
+}
+
 function formatText(text) {
     if (!text) return '';
     const lines = text.split('\n');
@@ -397,7 +465,7 @@ function createMessageHTML(msg) {
         <div class="max-w-[85%] flex flex-col ${isUser ? 'items-end' : 'items-start'}">
             ${!isUser ? `<span class="${senderColor} text-xs font-bold mb-1 uppercase tracking-wider block">${senderName}</span>` : ''}
             <div class="${bubbleClass}">
-                ${formatText(msg.text)}
+                ${formatMessageContent(msg.text)}
             </div>
         </div>
     `;
