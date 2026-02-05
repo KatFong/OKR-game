@@ -13,30 +13,53 @@
     <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
     <header class="shrink-0 h-16 bg-[#2c3e50] border-b-4 border-black shadow-lg relative z-20 flex items-center justify-between px-4">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-[#9b59b6] border-4 border-white shadow-[2px_2px_0_0_#000] flex items-center justify-center">
-                <i data-lucide="sparkles" class="text-white w-6 h-6"></i>
+        <button id="btn-menu-toggle" type="button" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity active:opacity-60" aria-label="開啟選單">
+            <div class="w-10 h-10 bg-[#9b59b6] border-4 border-white shadow-[2px_2px_0_0_#000] flex items-center justify-center pointer-events-none">
+                <i data-lucide="menu" class="text-white w-6 h-6"></i>
             </div>
-            <div>
-                <h1 class="text-xl font-black text-white tracking-widest drop-shadow-[2px_2px_0_#000] flex items-center gap-2">
-                    PIXEL MENTOR <span class="hidden sm:inline text-[10px] bg-[#3498db] px-1 py-0.5 rounded text-white font-normal tracking-normal border border-white">AI POWERED</span>
-                </h1>
-            </div>
-        </div>
+        </button>
 
-        <div class="flex gap-2">
-            <button id="btn-sound" class="p-2 border-2 border-white bg-[#2c3e50] text-white hover:bg-[#34495e] transition-all active:translate-y-1" title="Toggle Sound">
-                <i data-lucide="volume-2" class="w-5 h-5"></i>
-            </button>
-            <button id="btn-settings" class="p-2 border-2 border-white bg-[#2c3e50] text-white hover:bg-[#34495e] transition-all active:translate-y-1" title="API Settings">
-                <i data-lucide="settings" class="w-5 h-5"></i>
-            </button>
-            <button id="btn-sidebar-toggle" class="p-2 border-2 border-white bg-[#2c3e50] text-white hover:bg-[#34495e] transition-all active:translate-y-1 relative group" title="任務">
-                <i data-lucide="list-todo" class="w-5 h-5"></i>
-                <span id="sidebar-badge" class="absolute -top-1 -right-1 w-3 h-3 bg-[#e74c3c] border border-white hidden"></span>
+        <h1 id="header-title" class="flex-1 text-center text-xl font-black text-white tracking-widest drop-shadow-[2px_2px_0_#000]">
+            冒險相談
+        </h1>
+
+        <!-- History（已結束的任務）按鈕：僅在冒險任務頁顯示 -->
+        <div id="header-history-wrap" class="w-10 hidden">
+            <button id="filter-ended-tasks" type="button" class="w-10 h-10 border-2 border-white bg-[#2c3e50] text-white hover:bg-[#34495e] transition-all active:translate-y-1 flex items-center justify-center" title="已結束的任務">
+                <i data-lucide="clock" class="w-5 h-5"></i>
             </button>
         </div>
+        <div id="header-right-placeholder" class="w-10"></div>
     </header>
+
+    <!-- 左側選單 (Menu) -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black/50 z-30 hidden" aria-hidden="true"></div>
+    <aside id="left-menu" class="fixed top-16 left-0 bottom-0 w-64 bg-[#34495e] border-r-4 border-black shadow-lg z-40 flex flex-col transform -translate-x-full transition-transform duration-300">
+        <nav class="flex-1 flex flex-col py-4">
+            <a href="#" id="menu-item-today" class="flex items-center gap-3 px-4 py-3 text-white font-bold hover:bg-[#2c3e50] border-l-4 border-transparent hover:border-[#f1c40f] transition-colors">
+                <i data-lucide="calendar-check" class="w-5 h-5 text-[#f1c40f]"></i>
+                今日任務
+            </a>
+            <a href="#" id="menu-item-objectives" class="flex items-center gap-3 px-4 py-3 text-white font-bold hover:bg-[#2c3e50] border-l-4 border-transparent hover:border-[#e67e22] transition-colors">
+                <i data-lucide="target" class="w-5 h-5 text-[#e67e22]"></i>
+                目標
+            </a>
+            <a href="#" id="menu-item-accounting" class="flex items-center gap-3 px-4 py-3 text-white font-bold hover:bg-[#2c3e50] border-l-4 border-transparent hover:border-[#2ecc71] transition-colors">
+                <i data-lucide="wallet" class="w-5 h-5 text-[#2ecc71]"></i>
+                記帳
+            </a>
+            <a href="#" id="menu-item-ai" class="flex items-center gap-3 px-4 py-3 text-white font-bold hover:bg-[#2c3e50] border-l-4 border-transparent hover:border-[#9b59b6] transition-colors">
+                <i data-lucide="sparkles" class="w-5 h-5 text-[#9b59b6]"></i>
+                冒險相談
+            </a>
+        </nav>
+        <div class="shrink-0 border-t-2 border-black/30 pt-4 pb-4">
+            <a href="#" id="menu-item-settings" class="flex items-center gap-3 px-4 py-3 text-white font-bold hover:bg-[#2c3e50] border-l-4 border-transparent hover:border-[#3498db] transition-colors">
+                <i data-lucide="settings" class="w-5 h-5 text-[#3498db]"></i>
+                公會設定
+            </a>
+        </div>
+    </aside>
 
     <div id="modal-api-key" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 hidden">
         <div class="w-full max-w-md bg-[#ecf0f1] border-4 border-black shadow-[8px_8px_0_0_#000] p-6 animate-in fade-in zoom-in duration-200">
@@ -103,28 +126,122 @@
             </div>
         </div>
 
-        <!-- 獨立任務頁（與 ChatRoom 同 UI 風格，元件不變） -->
+        <!-- 今日任務頁（獨立） -->
         <div id="view-tasks" class="hidden absolute inset-0 z-20 flex flex-col bg-[#2c3e50]">
-            <header class="shrink-0 h-16 bg-[#2c3e50] border-b-4 border-black shadow-lg flex items-center px-4 gap-3">
-                <button id="btn-tasks-back" class="flex items-center gap-2 py-2 px-3 border-2 border-white bg-[#2c3e50] text-white hover:bg-[#34495e] font-black text-sm uppercase tracking-wider active:translate-y-0.5 transition-all">
-                    <i data-lucide="arrow-left" class="w-5 h-5"></i> 返回
-                </button>
-                <h2 class="flex-1 text-center text-xl font-black text-white tracking-widest drop-shadow-[2px_2px_0_#000]">任務</h2>
-                <div class="w-24"></div>
-            </header>
-            <div class="shrink-0 flex bg-[#34495e] border-b-4 border-black">
-                <button id="filter-my-tasks" class="flex-1 py-3 px-4 text-sm font-black text-[#f1c40f] border-r-2 border-black uppercase tracking-wider bg-[#3498db]">
-                    我的任務
-                </button>
-                <button id="filter-ended-tasks" class="flex-1 py-3 px-4 text-sm font-bold text-slate-300 hover:text-white bg-[#34495e] border-r-2 border-black flex items-center justify-center gap-1 uppercase tracking-wider transition-colors">
-                    已結束的任務 <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                </button>
+            <div class="flex-1 flex overflow-hidden relative">
+                <div id="task-list-sidebar" class="absolute md:relative inset-0 md:w-80 bg-[#34495e] border-r-4 border-black overflow-y-auto scrollbar-retro z-10 transition-transform duration-300 md:translate-x-0" style="transform: translateX(0);">
+                    <div id="task-list-content" class="p-4 space-y-2"></div>
+                    <div id="task-list-empty" class="hidden text-center py-12 px-4 text-slate-400 text-sm font-bold">
+                        <p>尚無任務</p>
+                        <p class="mt-1">前往冒險相談制定冒險章節與關鍵結果，任務會出現在這裡。</p>
+                    </div>
+                </div>
+                <div id="task-detail-panel" class="absolute md:relative inset-0 flex-1 bg-[#2c3e50] overflow-y-auto scrollbar-retro z-20 transition-transform duration-300 md:translate-x-0" style="transform: translateX(100%);">
+                    <div id="task-detail-content" class="p-6">
+                        <div id="task-detail-empty" class="text-center py-20 text-slate-400 text-sm font-bold">
+                            <i data-lucide="file-question" class="w-16 h-16 mx-auto mb-4 text-slate-500"></i>
+                            <p>選擇一項任務或關鍵結果查看詳情</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="task-cards-container" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 scrollbar-retro">
-                <div id="task-cards-list" class="space-y-4"></div>
-                <div id="task-cards-empty" class="hidden text-center py-12 text-slate-400 text-sm font-bold">
-                    <p>尚無任務</p>
-                    <p class="mt-1">返回與露米娜制定 OKR，任務會出現在這裡。</p>
+        </div>
+
+        <!-- 目標頁（獨立）：顯示各種 OKR -->
+        <div id="view-objectives" class="hidden absolute inset-0 z-20 flex flex-col bg-[#2c3e50]">
+            <div class="flex-1 overflow-y-auto p-6 scrollbar-retro">
+                <div id="objectives-list" class="max-w-3xl mx-auto space-y-6"></div>
+                <div id="objectives-empty" class="hidden text-center py-20 text-slate-400 text-sm font-bold">
+                    <i data-lucide="target" class="w-16 h-16 mx-auto mb-4 text-slate-500"></i>
+                    <p>尚無目標</p>
+                    <p class="mt-1">前往冒險相談與露米娜制定 OKR，目標會出現在這裡。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 記帳頁 -->
+        <div id="view-accounting" class="hidden absolute inset-0 z-20 flex flex-col bg-[#2c3e50]">
+            <div class="flex-1 overflow-y-auto p-4 scrollbar-retro">
+                <div class="max-w-2xl mx-auto space-y-4">
+                    <!-- 帳戶餘額 -->
+                    <div id="accounting-balances" class="grid grid-cols-3 gap-2 mb-4"></div>
+                    <!-- 新增一筆 -->
+                    <div class="flex gap-2 mb-4">
+                        <button type="button" id="btn-add-expense" class="flex-1 py-2 px-3 bg-[#e74c3c] hover:bg-[#c0392b] text-white font-bold border-2 border-black text-sm">支出</button>
+                        <button type="button" id="btn-add-income" class="flex-1 py-2 px-3 bg-[#2ecc71] hover:bg-[#27ae60] text-white font-bold border-2 border-black text-sm">收入</button>
+                        <button type="button" id="btn-add-transfer" class="flex-1 py-2 px-3 bg-[#3498db] hover:bg-[#2980b9] text-white font-bold border-2 border-black text-sm">轉帳</button>
+                    </div>
+                    <!-- 交易列表 -->
+                    <div id="accounting-list" class="space-y-2"></div>
+                    <div id="accounting-empty" class="hidden text-center py-12 text-slate-400 text-sm font-bold">
+                        <i data-lucide="wallet" class="w-12 h-12 mx-auto mb-2"></i>
+                        <p>尚無記帳紀錄</p>
+                        <p class="mt-1">點擊上方「支出」「收入」或「轉帳」新增一筆。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 記帳：新增/編輯 彈窗 -->
+        <div id="modal-accounting" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 hidden">
+            <div class="w-full max-w-md bg-[#34495e] border-4 border-black shadow-[8px_8px_0_0_#000] p-4 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="modal-accounting-title" class="text-lg font-black text-white">新增支出</h2>
+                    <button type="button" id="btn-close-accounting-modal" class="text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <input type="hidden" id="accounting-txn-type" value="expense">
+                <div class="space-y-3">
+                    <div id="accounting-field-account" class="space-y-1">
+                        <label class="text-xs font-bold text-slate-300">帳戶</label>
+                        <select id="accounting-account" class="w-full px-3 py-2 bg-[#2c3e50] border-2 border-black text-white font-bold focus:border-[#f1c40f] outline-none">
+                            <option value="">請選擇</option>
+                        </select>
+                    </div>
+                    <div id="accounting-field-category" class="space-y-1">
+                        <label class="text-xs font-bold text-slate-300">分類</label>
+                        <select id="accounting-category" class="w-full px-3 py-2 bg-[#2c3e50] border-2 border-black text-white font-bold focus:border-[#f1c40f] outline-none">
+                            <option value="">請選擇</option>
+                        </select>
+                    </div>
+                    <div id="accounting-field-to-account" class="space-y-1 hidden">
+                        <label class="text-xs font-bold text-slate-300">轉入帳戶</label>
+                        <select id="accounting-to-account" class="w-full px-3 py-2 bg-[#2c3e50] border-2 border-black text-white font-bold focus:border-[#f1c40f] outline-none">
+                            <option value="">請選擇</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-300">金額</label>
+                        <input type="number" id="accounting-amount" min="0" step="1" placeholder="0" class="w-full px-3 py-2 bg-[#2c3e50] border-2 border-black text-white font-bold focus:border-[#f1c40f] outline-none" />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-300">日期</label>
+                        <input type="date" id="accounting-date" class="w-full px-3 py-2 bg-[#2c3e50] border-2 border-black text-white font-bold focus:border-[#f1c40f] outline-none" />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-300">備註（選填）</label>
+                        <input type="text" id="accounting-note" placeholder="備註" class="w-full px-3 py-2 bg-[#2c3e50] border-2 border-black text-white placeholder:text-slate-500 font-bold focus:border-[#f1c40f] outline-none" />
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button type="button" id="btn-save-accounting" class="flex-1 py-2 bg-[#2ecc71] hover:bg-[#27ae60] text-white font-black border-2 border-black">儲存</button>
+                    <button type="button" id="btn-cancel-accounting" class="py-2 px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold border-2 border-black">取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 目標頁：編輯冒險章節與關鍵結果 -->
+        <div id="modal-edit-okr" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 hidden">
+            <div class="w-full max-w-lg bg-[#34495e] border-4 border-black shadow-[8px_8px_0_0_#000] p-4 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-black text-white">編輯目標與關鍵結果</h2>
+                    <button type="button" id="btn-close-edit-okr" onclick="closeEditOKRModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div id="edit-okr-content" class="space-y-4"></div>
+                <div class="flex gap-2 mt-4">
+                    <button type="button" id="btn-save-edit-okr" onclick="saveEditOKR()" class="flex-1 py-2 bg-[#2ecc71] hover:bg-[#27ae60] text-white font-black border-2 border-black">儲存</button>
+                    <button type="button" id="btn-cancel-edit-okr" onclick="closeEditOKRModal()" class="py-2 px-4 bg-slate-500 hover:bg-slate-600 text-white font-bold border-2 border-black">取消</button>
                 </div>
             </div>
         </div>
@@ -152,25 +269,106 @@
                         <p class="mt-1">與露米娜制定 OKR 後會出現在這裡。</p>
                     </div>
                 </section>
-                <!-- 每日任務 -->
+                <!-- 任務切換 -->
                 <section class="bg-white border-2 border-[#8b4513] p-3">
-                    <h3 class="font-black text-[#5d4037] text-xs uppercase tracking-wider flex items-center gap-1.5 mb-3">
-                        <i data-lucide="calendar-check" class="w-4 h-4 text-[#e67e22]"></i> 每日任務
-                    </h3>
-                    <div class="flex gap-1.5 mb-3">
-                        <input type="text" id="daily-task-input" placeholder="新增今日要做的事..." class="flex-1 px-2 py-1.5 text-sm bg-white border-2 border-[#d2b48c] text-slate-800 font-bold focus:border-[#e67e22] outline-none" />
-                        <button id="btn-add-daily-task" class="bg-[#2ecc71] hover:bg-[#27ae60] text-white p-1.5 font-black border-2 border-black shadow-[2px_2px_0_0_#000] active:translate-y-0.5 transition-all">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
+                    <div class="flex gap-2 mb-3 border-b-2 border-[#d2b48c]">
+                        <button id="btn-daily-tasks" class="flex-1 py-2 px-3 text-xs font-black text-[#5d4037] bg-[#f1c40f] border-2 border-black uppercase tracking-wider active:translate-y-0.5 transition-all">
+                            <i data-lucide="calendar-check" class="w-3.5 h-3.5 inline mr-1"></i> 每日任務
+                        </button>
+                        <button id="btn-all-tasks" class="flex-1 py-2 px-3 text-xs font-bold text-slate-600 bg-white border-2 border-[#d2b48c] hover:bg-[#f5f5f5] uppercase tracking-wider active:translate-y-0.5 transition-all">
+                            <i data-lucide="list-todo" class="w-3.5 h-3.5 inline mr-1"></i> 全部任務
                         </button>
                     </div>
-                    <div id="daily-tasks-list" class="space-y-1.5"></div>
-                    <div id="daily-tasks-empty" class="text-center text-[#8b4513] opacity-70 py-4 text-xs font-bold">
-                        今天還沒有每日任務，新增一項吧！
+                    <!-- 每日任務區域 -->
+                    <div id="daily-tasks-section">
+                        <div class="flex gap-1.5 mb-3">
+                            <select id="daily-task-kr-select" class="flex-1 px-2 py-1.5 text-xs bg-white border-2 border-[#d2b48c] text-slate-800 font-bold focus:border-[#e67e22] outline-none">
+                                <option value="">選擇 KR...</option>
+                            </select>
+                            <input type="text" id="daily-task-input" placeholder="新增子任務..." class="flex-1 px-2 py-1.5 text-sm bg-white border-2 border-[#d2b48c] text-slate-800 font-bold focus:border-[#e67e22] outline-none" />
+                            <button id="btn-add-daily-task" class="bg-[#2ecc71] hover:bg-[#27ae60] text-white p-1.5 font-black border-2 border-black shadow-[2px_2px_0_0_#000] active:translate-y-0.5 transition-all">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div id="daily-tasks-list" class="space-y-1.5"></div>
+                        <div id="daily-tasks-empty" class="text-center text-[#8b4513] opacity-70 py-4 text-xs font-bold">
+                            今天還沒有每日任務，新增一項吧！
+                        </div>
+                    </div>
+                    <!-- 全部任務區域 -->
+                    <div id="all-tasks-section" class="hidden">
+                        <div id="all-tasks-list" class="space-y-2"></div>
+                        <div id="all-tasks-empty" class="text-center text-[#8b4513] opacity-70 py-4 text-xs font-bold">
+                            尚無任務。
+                        </div>
                     </div>
                 </section>
             </div>
         </div>
 
+    </div>
+
+    <!-- 設置頁面（在 header 下方，與其他頁面一致保留左上角 Menu） -->
+    <div id="view-settings" class="hidden absolute top-16 left-0 right-0 bottom-0 z-30 flex flex-col bg-[#2c3e50]">
+        <div class="flex-1 overflow-y-auto p-6 scrollbar-retro">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <h2 class="text-2xl font-black text-white mb-6">設置</h2>
+                
+                <!-- 聲音設置 -->
+                <div class="bg-[#34495e] border-2 border-black p-4">
+                    <h3 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="volume-2" class="w-5 h-5"></i> 聲音設置
+                    </h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-bold text-slate-300">音效</span>
+                        <button id="btn-sound-settings" class="p-2 border-2 border-white bg-[#2c3e50] text-white hover:bg-[#34495e] transition-all active:translate-y-1">
+                            <i data-lucide="volume-2" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 字體大小設置 -->
+                <div class="bg-[#34495e] border-2 border-black p-4">
+                    <h3 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="type" class="w-5 h-5"></i> 字體大小
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-slate-300">字體大小</span>
+                            <span id="font-size-display" class="text-sm font-bold text-white">100%</span>
+                        </div>
+                        <input type="range" id="font-size-slider" min="75" max="150" value="100" step="5" 
+                            class="w-full h-2 bg-slate-600 rounded-none appearance-none cursor-pointer accent-[#f1c40f]">
+                        <div class="flex justify-between text-xs text-slate-400">
+                            <span>75%</span>
+                            <span>100%</span>
+                            <span>150%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- API 設置 -->
+                <div class="bg-[#34495e] border-2 border-black p-4">
+                    <h3 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="key" class="w-5 h-5"></i> API 設置
+                    </h3>
+                    <button id="btn-api-settings" class="w-full py-2 px-4 bg-[#3498db] hover:bg-[#2980b9] text-white font-bold border-2 border-black shadow-[2px_2px_0_0_#000] active:translate-y-0.5 transition-all">
+                        設定 API Key
+                    </button>
+                </div>
+                
+                <!-- 重置 -->
+                <div class="bg-[#34495e] border-2 border-black p-4">
+                    <h3 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i> 重置
+                    </h3>
+                    <p class="text-sm text-slate-400 mb-3">清除所有數據（冒險章節、任務、記帳、聊天記錄等），無法復原。</p>
+                    <button type="button" id="btn-reset-all" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold border-2 border-red-800 shadow-[2px_2px_0_0_#000] active:translate-y-0.5 transition-all">
+                        清除所有數據
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/system-prompt.js"></script>
